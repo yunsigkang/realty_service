@@ -1,0 +1,36 @@
+PUT http://localhost:9988/api/broker/add HTTP/1.1
+content-type: application/json
+
+{
+    "bork_boi_seq":null,
+    "bork_id":"broker4",
+    "bork_pwd":"123456",
+    "bork_name":"broker1",
+    "bork_phone":"01012345678",
+    "bork_status":1,
+    "bork_image_file":"default.jpg" 
+}
+##################################################
+get http://localhost:9988/api/broker/idcheck?id=broker2 HTTP/1.1
+##################################################
+post http://localhost:9988/api/broker/login HTTP/1.1
+content-type: application/json
+
+{
+    "id":"broker2",
+    "pwd":"123456"
+}
+##################################################
+get http://localhost:9988/api/broker/logout HTTP/1.1
+##################################################
+PATCH  http://localhost:9988/api/broker/update HTTP/1.1
+content-type: application/json
+
+{
+    "bork_boi_seq":null,
+    "bork_id":"broker2",
+    "bork_pwd":"12345896",
+    "bork_name":"중개사4",
+    "bork_phone":"01087654321",
+    "bork_image_file":"default23.jpg" 
+}
