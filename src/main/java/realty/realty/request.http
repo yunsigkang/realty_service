@@ -11,9 +11,9 @@ content-type: application/json
     "bork_image_file":"default.jpg" 
 }
 ##################################################
-get http://localhost:9988/api/broker/idcheck?id=broker2 HTTP/1.1
+get http://localhost:9988/api/broker/idcheck?id=broker2
 ##################################################
-post http://localhost:9988/api/broker/login HTTP/1.1
+post http://localhost:9988/api/broker/login
 content-type: application/json
 
 {
@@ -21,9 +21,9 @@ content-type: application/json
     "pwd":"123456"
 }
 ##################################################
-get http://localhost:9988/api/broker/logout HTTP/1.1
+get http://localhost:9988/api/broker/logout
 ##################################################
-PATCH  http://localhost:9988/api/broker/update HTTP/1.1
+PATCH  http://localhost:9988/api/broker/update
 content-type: application/json
 
 {
@@ -33,4 +33,81 @@ content-type: application/json
     "bork_name":"중개사4",
     "bork_phone":"01087654321",
     "bork_image_file":"default23.jpg" 
+}
+###################################################
+PATCH  http://localhost:9988/api/broker/status/broker?status=4
+###################################################
+PATCH  http://localhost:9988/api/broker/status/admin?status=3
+###################################################
+PATCH  http://localhost:9988/api/broker/status/asd?status=4&user_no=4 
+###################################################
+put  http://localhost:9988/api/realty/building/add
+content-type: application/json
+
+{
+    "bi_name" : "교보빌딩31",
+    "bi_total_floor" : 20,
+    "bi_tatal_parking" : 100,
+    "bi_elevator" : 1,
+    "bi_use_type" : "오피스",
+    "bi_use_accepted_dt" : "2001-05-09",
+    "bi_address" : "대구광역시 중구 국채보상로 586",
+    "bi_longitude" : 128.594866,
+    "bi_latitube" : 35.870506
+}
+###################################################
+get  http://localhost:9988/api/realty/building/check/addr?address=대구광역시 중구 국채보상로 586
+####################################################
+get  http://localhost:9988/api/realty/building/list
+####################################################
+put  http://localhost:9988/api/realty/post/add
+content-type: application/json
+
+{
+    "basic_info" : {
+        "rbi_bi_seq" : "1",
+        "rbi_price" : "200",
+        "rbi_monthly_price" : "25",
+        "rbi_maintain_price" : "10",
+        "rbi_sale_type" : "1",
+        "rbi_parking_count" : "1",
+        "rbi_short_term_lease" : "1",
+        "rbi_room_type" : "0",
+        "rbi_floor" : "3",
+        "rbi_supply_area" : "39.66",
+        "rbi_use_area" : "39.66",
+        "rbi_room_count" : "1",
+        "rbi_buliding_number" : "0",
+        "rbi_room_number" : "0",
+        "rbi_room_direction" : "0",
+        "rbi_heating_type" : "0",
+        "rbi_kitchen_type" : "1",
+        "rbi_balcony_type" : "0",
+        "rbi_available_dt" : "2015-09-09",
+        "rbi_reg_dt" : "2022-09-05",
+        "rbi_status" : "0",
+        "rbi_kitchen_structure" : "1",
+        "rbi_maintain_list" : ""
+    },
+    "option_info":{
+        "ro_induction" : "0",
+        "ro_elec_range" : "1",
+        "ro_ariconditioner" : "1",
+        "ro_washing_machine" : "1",
+        "ro_television" : "1",
+        "ro_closet" : "1",
+        "ro_bed" : "0",
+        "ro_desk" : "0",
+        "ro_shoe_closet" : "1",
+        "ro_bidet" : "0",
+        "ro_stove" : "0",
+        "ro_refrigerator" : "1",
+        "ro_elec_doorlock" : "1"
+    },
+    "post_info":{ 
+        "rpi_title" : "개쩌는 방",
+        "rpi_content" : "전체 자제를 하지 않습니다.",
+        "rpi_bork_seq" : "3",
+        "rpi_rbi_seq" : "1"
+        }
 }

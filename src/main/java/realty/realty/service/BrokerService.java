@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import realty.realty.common.LoginSessionVO;
-import realty.realty.data.BrokerInfoVO;
-import realty.realty.data.BrokerLoginVO;
+import realty.realty.data.borker.BrokerInfoVO;
+import realty.realty.data.borker.BrokerLoginVO;
 import realty.realty.mapper.BrokerMapper;
 import realty.realty.utils.AESAlgorithm;
 
@@ -101,6 +101,7 @@ public class BrokerService {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap,stat);
     }
+    //중계사 계정 수정 service
     public ResponseEntity<Map<String, Object>> updateBrokerInfo(BrokerInfoVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         HttpStatus stat = null;
@@ -130,5 +131,62 @@ public class BrokerService {
             stat = HttpStatus.ACCEPTED;
         }
         return new ResponseEntity<Map<String, Object>>(resultMap,stat);
+    }
+    //중계인 계정 상태 수정 service
+    public ResponseEntity<Map<String, Object>> updateBrokerstatus(String value, Integer status, Integer user_no, HttpSession session){
+    Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+    HttpStatus stat = null;
+    String[] arr_msg = {
+        "탈퇴 철회가 완료되었습니다.",
+        "탈퇴 신청가 완료합니다.",
+        "중계인 정지 처리가 완료되었습니다.",
+        "중계인 즉시 탈퇴 처리가 안료되었습니다."
+    };
+    if(value.equals("broker")){
+        // 1,3
+        if(status == 1 | status == 3){
+            resultMap.put("status",true);
+            stat = HttpStatus.ACCEPTED;
+            Integer current = broker_mapper.selectBrockerStatus(user_no);
+            if(broker_mapper.selectBrockerStatus(user_no) == status){
+                resultMap.put("message", "동일한 상태로 변경 불가합니다.(current : "+current+", incoming : "+status+")");
+            }
+            else{
+                broker_mapper.updateBrokerStatus(user_no, status);
+                resultMap.put("massage",arr_msg[status-1]);
+            }
+        }
+        else{
+            resultMap.put("status",false);
+            resultMap.put("message","중계사 계정은 탈퇴 및 탈퇴 철회만 가능합니다.");
+            stat = HttpStatus.BAD_REQUEST;
+        }
+    }
+    else if(value.equals("admin")){
+        // 1,2,3,4
+        if(status <= 4 && status > 0){
+            resultMap.put("status",true);
+            Integer current = broker_mapper.selectBrockerStatus(user_no);
+            if(broker_mapper.selectBrockerStatus(user_no) == status){
+                resultMap.put("message", "동일한 상태로 변경 불가합니다.(current : "+current+", incoming : "+status+")");
+            }
+            else{
+                broker_mapper.updateBrokerStatus(user_no, status);
+                resultMap.put("massage",arr_msg[status-1]);
+            }
+            stat = HttpStatus.ACCEPTED;
+        }
+        else{
+            resultMap.put("status",false);
+            resultMap.put("message","잘못된 요청 입니다.(usage : status : [1,2,3,4])");
+            stat = HttpStatus.BAD_REQUEST;
+        }
+    }
+    else{
+        resultMap.put("status",false);
+        resultMap.put("message","잘못된 요청 입니다.(usage : /api/borker/status/[broker, admin])");
+        stat = HttpStatus.BAD_REQUEST;
+    }
+    return new ResponseEntity<Map<String, Object>>(resultMap,stat);
     }
 }

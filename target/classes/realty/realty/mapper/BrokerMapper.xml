@@ -33,4 +33,10 @@
         WHERE
             bork_id=#{bork_id};
     </update>
+    <select id="selectBrockerStatus" resultType="java.lang.Integer">
+        select bork_status from broker_info where bork_seq=#{bork_seq}
+    </select>
+    <update id="updateBrokerStatus">
+        select broker_info bork_status=#{bork_status} where bork_seq=#{bork_seq}
+    </update>
 </mapper>

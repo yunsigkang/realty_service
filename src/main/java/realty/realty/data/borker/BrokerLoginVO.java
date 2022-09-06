@@ -1,4 +1,4 @@
-package realty.realty.data;
+package realty.realty.data.borker;
 
 import lombok.Data;
 
