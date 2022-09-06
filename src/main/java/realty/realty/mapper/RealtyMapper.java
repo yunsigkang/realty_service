@@ -8,7 +8,6 @@ import realty.realty.data.realty.RealtyBasicInfoVO;
 import realty.realty.data.realty.RealtyBuildingInfoVO;
 import realty.realty.data.realty.RealtyOptionInfoVO;
 import realty.realty.data.realty.RealtyPostinfoVO;
-import realty.realty.data.realty.RealtyTotalInfoVO;
 
 @Mapper
 public interface RealtyMapper {

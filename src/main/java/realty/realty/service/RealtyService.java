@@ -82,7 +82,6 @@ public class RealtyService {
         Realty_mapper.insertRealtyBasicInfo(basic);
         post.setRpi_rbi_seq(basic.getRbi_seq());
 
-
         Realty_mapper.insertRealtyPostInfo(post);
 
         resultMap.put("status", true);
