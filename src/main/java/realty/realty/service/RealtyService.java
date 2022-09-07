@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import realty.realty.data.realty.RealtyBasicInfoVO;
 import realty.realty.data.realty.RealtyBuildingInfoVO;
 import realty.realty.data.realty.RealtyOptionInfoVO;
 import realty.realty.data.realty.RealtyPostinfoVO;
 import realty.realty.data.realty.RealtyTotalInfoVO;
+import realty.realty.data.realty.update.RealtyBuildingUpdateVO;
 import realty.realty.mapper.RealtyMapper;
 
 @Service
@@ -69,7 +71,43 @@ public class RealtyService {
 
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
-    public ResponseEntity<Map<String, Object>> putBuildingPost(RealtyTotalInfoVO data){
+    //건물 정보 수정 service
+    public ResponseEntity<Map<String, Object>> updateBuildingInfo(RealtyBuildingUpdateVO data){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        
+        if(data.getUpdate_address()){
+            String addr = data.getBuilding_info().getBi_address().replace(" ", "");
+            if (Realty_mapper.isExistBuildingInfo(addr)){
+                resultMap.put("status", false);
+                resultMap.put("message", "이미 등록된 주소지입니다.");
+                return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+            }
+        }
+        Realty_mapper.updateBulidingInfo(data);
+        resultMap.put("status", true);
+        resultMap.put("message", "건물 정보가 변경되었습니다.");
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
+    //건물 삭제 service
+    public ResponseEntity<Map<String, Object>> deleteBuildingInfo(Integer building_seq){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+        if(Realty_mapper.isExistBuildingBySeq(building_seq)){
+            Realty_mapper.deleteBuildingInfo(building_seq);
+            resultMap.put("status", true);
+            resultMap.put("message", "빌딩(건물) 데이터를 삭제했습니다.");
+            stat=HttpStatus.ACCEPTED;
+        }
+        else{
+            resultMap.put("status", false);
+            resultMap.put("message", "빌딩(건물) 데이터가 존재하지 않습니다.");
+            stat=HttpStatus.ACCEPTED;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap, stat);
+    }
+    //건물 게시글 등록 service
+    @Transactional
+    public ResponseEntity<Map<String, Object>> insertBuildingInfo(RealtyTotalInfoVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
 
         RealtyOptionInfoVO option = data.getOption_info();
@@ -86,6 +124,92 @@ public class RealtyService {
 
         resultMap.put("status", true);
         resultMap.put("message", "부동산 매매.임대 정보를 추가하였습니다.");
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
+    //게시글 수정 service(Basic/Option/Post/All)
+    public ResponseEntity<Map<String, Object>> updateRealtyPostBasicInfo(RealtyBasicInfoVO data){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+        Realty_mapper.updateRealtyPostBasicInfo(data);
+        resultMap.put("status", true);
+        resultMap.put("message", "매물 기본정보가 수정되었습니다.");
+        stat=HttpStatus.ACCEPTED;
+        return new ResponseEntity<Map<String, Object>>(resultMap, stat);
+    }
+    public ResponseEntity<Map<String, Object>> updateRealtyPostOptionInfo(RealtyOptionInfoVO data){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+        Realty_mapper.updateRealtyPostOptioncInfo(data);
+        resultMap.put("status", true);
+        resultMap.put("message", "매물 옵션정보가 수정되었습니다.");
+        stat=HttpStatus.ACCEPTED;
+        return new ResponseEntity<Map<String, Object>>(resultMap, stat);
+    }
+    public ResponseEntity<Map<String, Object>> updateRealtyPostInfo(RealtyPostinfoVO data){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+        Realty_mapper.updateRealtyPostInfo(data);
+        resultMap.put("status", true);
+        resultMap.put("message", "매물 글 정보가 수정되었습니다.");
+        stat=HttpStatus.ACCEPTED;
+        return new ResponseEntity<Map<String, Object>>(resultMap, stat);
+    }
+    @Transactional
+    public ResponseEntity<Map<String, Object>> updateRealtyInfoAll(RealtyTotalInfoVO data){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+        Realty_mapper.updateRealtyPostBasicInfo(data.getBasic_info());
+        Realty_mapper.updateRealtyPostOptioncInfo(data.getOption_info());
+        Realty_mapper.updateRealtyPostInfo(data.getPost_info());
+        resultMap.put("status", true);
+        resultMap.put("message", "매물 정보가 수정되었습니다.");
+        stat=HttpStatus.ACCEPTED;
+        return new ResponseEntity<Map<String, Object>>(resultMap, stat);
+    }
+
+    //관리비 항목 추가 및 중복체크 기능
+    public ResponseEntity<Map<String, Object>> insertMaintainItem(String name){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+
+        if(Realty_mapper.isExistBuildingItem(name)){
+            resultMap.put("status", false);
+            resultMap.put("message", name+"항목은 이미 존재합니다.");
+            stat = HttpStatus.ACCEPTED;
+        }
+        else{
+            Realty_mapper.insertMaintainItem(name);
+            resultMap.put("status", true);
+            resultMap.put("message", name+"항목은 추가했습니다.");
+            stat = HttpStatus.CREATED;
+        }
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, stat);
+    }
+    //관리비 항목 리스트 및 갯수 불러오는 service
+    public ResponseEntity<Map<String, Object>> insertMaintainItemList(){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+
+        resultMap.put("status", true);
+        resultMap.put("count", Realty_mapper.selectMaintainItemCount());
+        resultMap.put("list", Realty_mapper.selectMaintainItemList());
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
+    //관리비 항목 삭제 service
+    public ResponseEntity<Map<String, Object>> deleteMaintainItemList(String name){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+
+        if(Realty_mapper.isExistBuildingItem(name)){
+            Realty_mapper.deleteMaintainItemList(name);
+            resultMap.put("status", true);
+            resultMap.put("message", name + "관리비 항목을 삭제했습니다.");
+        }
+        else{
+            resultMap.put("status", false);
+            resultMap.put("message", name + "관리비 항목은 존재하지 않습니다.");    
+        }
+
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }
 }

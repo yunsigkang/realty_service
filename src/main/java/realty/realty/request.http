@@ -45,16 +45,18 @@ put  http://localhost:9988/api/realty/building/add
 content-type: application/json
 
 {
-    "bi_name" : "교보빌딩31",
+    "bi_name" : "dummy",
     "bi_total_floor" : 20,
     "bi_tatal_parking" : 100,
     "bi_elevator" : 1,
     "bi_use_type" : "오피스",
     "bi_use_accepted_dt" : "2001-05-09",
-    "bi_address" : "대구광역시 중구 국채보상로 586",
+    "bi_address" : "대구광역시 중구 국채보상",
     "bi_longitude" : 128.594866,
     "bi_latitube" : 35.870506
 }
+###################################################
+DELETE   http://localhost:9988/api/realty/building/delete?building_seq=1
 ###################################################
 get  http://localhost:9988/api/realty/building/check/addr?address=대구광역시 중구 국채보상로 586
 ####################################################
@@ -87,7 +89,7 @@ content-type: application/json
         "rbi_reg_dt" : "2022-09-05",
         "rbi_status" : "0",
         "rbi_kitchen_structure" : "1",
-        "rbi_maintain_list" : ""
+        "rbi_maintain_list" : "1" 
     },
     "option_info":{
         "ro_induction" : "0",
@@ -107,7 +109,132 @@ content-type: application/json
     "post_info":{ 
         "rpi_title" : "개쩌는 방",
         "rpi_content" : "전체 자제를 하지 않습니다.",
-        "rpi_bork_seq" : "3",
-        "rpi_rbi_seq" : "1"
+        "rpi_bork_seq" : "3"
         }
 }
+#############################################################
+put  http://localhost:9988/api/realty/maintain/add?name=수도새
+#############################################################
+put  http://localhost:9988/api/realty/maintain/add?name=청소비
+#############################################################
+put  http://localhost:9988/api/realty/maintain/add?name=인터넷
+#############################################################
+put  http://localhost:9988/api/realty/maintain/add?name=유선TV
+#############################################################
+put  http://localhost:9988/api/realty/maintain/add?name=도시가스
+#############################################################
+put  http://localhost:9988/api/realty/maintain/add?name=전기세
+#############################################################
+delete  http://localhost:9988/api/realty/maintain/delete?name=dkskekf
+#############################################################
+get  http://localhost:9988/api/realty/maintain/list
+#############################################################
+patch  http://localhost:9988/api/realty/building/update
+content-type: application/json
+
+{
+    "update_name" : true,
+    "update_total_floor" : false,
+    "update_total_parking" : false,
+    "update_elevator" : false,
+    "update_use_type" : true,
+    "update_use_acepted_dt" : false,
+    "update_address" : false,
+    "update_longitude" : true,
+    "update_latitube" : true,
+    "building_info" : {
+        "bi_seq" : 1,
+        "bi_name" : "컴퓨터",
+        "bi_total_floor" : "",
+        "bi_tatal_parking" : "",
+        "bi_elevator" : "",
+        "bi_use_type" : "학원",
+        "bi_use_accepted_dt" : "",
+        "bi_address" : "",
+        "bi_longitude" : 35.870384,
+        "bi_latitube" : 128.595301
+    }
+}
+#############################################################
+PATCH  http://localhost:9988/api/realty/post/update/post
+content-type: application/json
+
+{
+    "post_info":{
+        "rpi_seq" : 2,
+        "rpi_title" : "변경하는 글제목"
+    }
+}
+#############################################################
+PATCH  http://localhost:9988/api/realty/post/update/basic
+content-type: application/json
+
+{
+    "basic_info":{
+        "rbi_seq":1,
+        "rbi_price" :12000,
+        "rbi_monthly_price":950,
+        "rbi_maintain_price":50
+    }
+}
+#############################################################
+PATCH  http://localhost:9988/api/realty/post/update/option
+content-type: application/json
+
+{
+    "option_info":{
+        "ro_seq":1,
+        "ro_induction" : 1,
+        "ro_elec_range" : 1,
+        "ro_ariconditioner" : 1,
+        "ro_washing_machine" : 1,
+        "ro_television" : 1,
+        "ro_closet" : 1,
+        "ro_bed" : 1,
+        "ro_desk" : 1,
+        "ro_shoe_closet" : 1,
+        "ro_bidet" : 1,
+        "ro_stove" : 1,
+        "ro_refrigerator" : 1,
+        "ro_elec_doorlock" : 1
+    }
+}
+#############################################################
+PATCH  http://localhost:9988/api/realty/post/update/all
+content-type: application/json
+
+{
+    "post_info":{
+        "rpi_seq" : 1,
+        "rpi_title" : "뚜루루루"
+    },
+    "basic_info":{
+        "rbi_seq":4,
+        "rbi_price" :15000,
+        "rbi_monthly_price":500,
+        "rbi_maintain_price":50
+    },   
+    "option_info":{
+        "ro_seq":1,
+        "ro_induction" : 1,
+        "ro_elec_range" : 1,
+        "ro_ariconditioner" : 0,
+        "ro_washing_machine" : 1,
+        "ro_television" : 0,
+        "ro_closet" : 1,
+        "ro_bed" : 1,
+        "ro_desk" : 1,
+        "ro_shoe_closet" : 0,
+        "ro_bidet" : 1,
+        "ro_stove" : 1,
+        "ro_refrigerator" : 1,
+        "ro_elec_doorlock" : 1
+    }
+}
+#############################################################
+#############################################################
+#############################################################
+#############################################################
+#############################################################
+#############################################################
+#############################################################
