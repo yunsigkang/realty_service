@@ -48,6 +48,7 @@ public class RealtyAPIController {
     public ResponseEntity<Map<String, Object>> updateBuildingInfo(@RequestBody RealtyBuildingUpdateVO data) {
         return realty_service.updateBuildingInfo(data);
     }
+    //건물 삭제 기능
     @DeleteMapping("/building/delete")
     public ResponseEntity<Map<String, Object>> deleteBuildingInfo(@RequestParam Integer building_seq) {
         return realty_service.deleteBuildingInfo(building_seq);
