@@ -1,3 +1,4 @@
+##################################################(20220905)
 PUT http://localhost:9988/api/broker/add HTTP/1.1
 content-type: application/json
 
@@ -40,7 +41,7 @@ PATCH  http://localhost:9988/api/broker/status/broker?status=4
 PATCH  http://localhost:9988/api/broker/status/admin?status=3
 ###################################################
 PATCH  http://localhost:9988/api/broker/status/asd?status=4&user_no=4 
-###################################################
+###################################################(20220906)
 put  http://localhost:9988/api/realty/building/add
 content-type: application/json
 
@@ -112,7 +113,7 @@ content-type: application/json
         "rpi_bork_seq" : "3"
         }
 }
-#############################################################
+#############################################################(20220907)
 put  http://localhost:9988/api/realty/maintain/add?name=수도새
 #############################################################
 put  http://localhost:9988/api/realty/maintain/add?name=청소비
@@ -231,10 +232,36 @@ content-type: application/json
         "ro_elec_doorlock" : 1
     }
 }
+#############################################################(20220908)
+put http://localhost:9988/api/broker/office/add
+content-type: application/json
+
+{
+    "boi_name" : "올스타 공인 소개 사무소",
+    "boi_address" : "대구광역시 북구 영송로 36",
+    "boi_phone" : "010-3972-4777",
+    "boi_master_name" : "박규나",
+    "boi_reg_number" : "27230-2021-00038",
+    "boi_reg_dt" : "2022-09-08",
+    "boi_image_file" : "defualt.jpg"
+}
 #############################################################
+get http://localhost:9988/api/broker/office/check?name=올스타 공인 소개 &reg_no=27230-2021-0
 #############################################################
+get http://localhost:9988/api/broker/office/list
 #############################################################
+patch http://localhost:9988/api/broker/office/update
+content-type: application/json
+
+{
+    "boi_address" : "대구광역시 북구 영송로 36",
+    "boi_phone" : "010-1234-5678",
+    "boi_master_name" : "박OO",
+    "boi_image_file" : "office_124875.jpg",
+    "boi_seq" : "1"
+}
 #############################################################
+delete http://localhost:9988/api/broker/office/delete?no=1
 #############################################################
-#############################################################
+get http://localhost:9988/api/broker/office/get?no=2
 #############################################################

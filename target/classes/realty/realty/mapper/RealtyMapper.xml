@@ -121,7 +121,7 @@
         WHERE rbi_seq=#{rbi_seq};
     </update>
     <update id="updateRealtyPostOptioncInfo">
-        UPDATE realty_db.realty_option_info
+        UPDATE realty_option_info
         SET
             <if test="ro_induction != null">ro_induction=#{ro_induction},</if>
             <if test="ro_elec_range != null">ro_elec_range=#{ro_elec_range},</if>
@@ -140,7 +140,7 @@
         WHERE ro_seq=#{ro_seq};
     </update>
     <update id="updateRealtyPostInfo">
-        UPDATE realty_db.realty_post_info
+        UPDATE realty_post_info
         SET
             <if test="rpi_title != null">rpi_title=#{rpi_title},</if>
             <if test="rpi_content != null">rpi_content=#{rpi_content},</if>

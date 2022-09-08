@@ -39,4 +39,41 @@
     <update id="updateBrokerStatus">
         select broker_info bork_status=#{bork_status} where bork_seq=#{bork_seq}
     </update>
+    <select id="isExistBrokerOffice" resultType="java.lang.Boolean">
+        select count(*) = 1 from broker_office_info where replace(boi_name, ' ', '')=#{name} or boi_reg_number=#{reg_no}
+    </select>
+    <insert id="insertBrokerOfficeInfo" useGeneratedKeys="true"
+        parameterType="realty.realty.data.borker.BrokerOfficeInfoVO"
+        keyProperty="boi_seq">
+            INSERT INTO broker_office_info
+                (boi_name, boi_address, boi_phone, boi_master_name, boi_reg_number, boi_reg_dt, boi_image_file)
+            VALUES
+                (#{boi_name}, #{boi_address}, #{boi_phone}, #{boi_master_name}, #{boi_reg_number}, #{boi_reg_dt}, #{boi_image_file});
+    </insert>
+    <select id="selectBrockerOfficePageCnt" resultType="java.lang.Integer">
+        select ceil(count(*)/10) from broker_office_info where boi_name like '%${keyword}%'
+    </select>
+    <select id="selectBrockerOfficeTotalCnt" resultType="java.lang.Integer">
+        select count(*) from broker_office_info where boi_name like '%${keyword}%'
+    </select>
+    <select id="selectBrockerOfficeList" resultType="realty.realty.data.borker.BrokerOfficeInfoVO">
+        select * from broker_office_info where boi_name like '%${keyword}%'
+        limit 10 offset ${(page-1)*10}
+    </select>
+    <update id="updateBrokerOfficeInfo">
+        UPDATE broker_office_info
+        SET
+            <if test="boi_address != null">boi_address=#{boi_address},</if>
+            <if test="boi_phone != null">boi_phone=#{boi_phone},</if>
+            <if test="boi_master_name != null">boi_master_name=#{boi_master_name},</if>
+            <if test="boi_image_file != null">boi_image_file=#{boi_image_file},</if>
+            boi_seq=#{boi_seq}
+        WHERE boi_seq=#{boi_seq};
+    </update>
+    <delete id="deleteBrokerOffceInfo">
+        delete from broker_office_info where boi_seq=#{no}
+    </delete>
+    <select id="selectBrokerOfficeBySeq" resultType="realty.realty.data.borker.BrokerOfficeInfoVO">
+        select * from broker_office_info where boi_seq=#{no}
+    </select>
 </mapper>

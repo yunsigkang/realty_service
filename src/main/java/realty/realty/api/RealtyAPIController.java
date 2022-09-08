@@ -79,6 +79,11 @@ public class RealtyAPIController {
             resultMap.put("status", "타입 정보가 잘못되었습니다. [basic, option, post, all]");
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.BAD_REQUEST);
         }
+    }
+    @GetMapping("/post/list")
+    public ResponseEntity<Map<String, Object>> getPostList() {
+        return null;
+        // return realty_service.getPostList();
     } 
     //관리비 항목 추가 및 중복체크 기능
     @PutMapping("/maintain/add")
@@ -95,4 +100,5 @@ public class RealtyAPIController {
     public ResponseEntity<Map<String, Object>> deleteMaintainItemList(@RequestParam String name) {
         return realty_service.deleteMaintainItemList(name);
     } 
+
 }

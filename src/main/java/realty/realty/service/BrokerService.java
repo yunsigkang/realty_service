@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import realty.realty.common.LoginSessionVO;
 import realty.realty.data.borker.BrokerInfoVO;
 import realty.realty.data.borker.BrokerLoginVO;
+import realty.realty.data.borker.BrokerOfficeInfoVO;
 import realty.realty.mapper.BrokerMapper;
 import realty.realty.utils.AESAlgorithm;
 
@@ -132,15 +133,15 @@ public class BrokerService {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap,stat);
     }
-    //중계인 계정 상태 수정 service
+    //중개인 계정 상태 수정 service
     public ResponseEntity<Map<String, Object>> updateBrokerstatus(String value, Integer status, Integer user_no, HttpSession session){
     Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
     HttpStatus stat = null;
     String[] arr_msg = {
         "탈퇴 철회가 완료되었습니다.",
         "탈퇴 신청가 완료합니다.",
-        "중계인 정지 처리가 완료되었습니다.",
-        "중계인 즉시 탈퇴 처리가 안료되었습니다."
+        "중개인 정지 처리가 완료되었습니다.",
+        "중개인 즉시 탈퇴 처리가 안료되었습니다."
     };
     if(value.equals("broker")){
         // 1,3
@@ -188,5 +189,101 @@ public class BrokerService {
         stat = HttpStatus.BAD_REQUEST;
     }
     return new ResponseEntity<Map<String, Object>>(resultMap,stat);
+    }
+    //중개사 추가 service
+    public ResponseEntity<Map<String, Object>> insertBrokerOfficeInfo(BrokerOfficeInfoVO data){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+
+        String name = data.getBoi_name().replace(" ", "");
+
+        if(broker_mapper.isExistBrokerOffice(name,data.getBoi_reg_number())) {
+            resultMap.put("status",false);
+            resultMap.put("message", "이미 등록된 사무소 이름/등록번호 입니다.");
+            stat = HttpStatus.OK;
+        }
+        else{
+            broker_mapper.insertBrokerOfficeInfo(data);
+            resultMap.put("status",true);
+            resultMap.put("message", "중개사무소가 등록되었습니다.");
+            resultMap.put("office_seq",data.getBoi_seq());
+            stat = HttpStatus.CREATED;
+        }
+
+        return new ResponseEntity<Map<String, Object>>(resultMap,stat);
+    }
+    //중개사 중복 체크 service
+    public ResponseEntity<Map<String, Object>> getBrokerOfficeInfo(String name,String reg_no){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+        name = name.replace(" ", "");
+
+        if(broker_mapper.isExistBrokerOffice(name,reg_no)) {
+            resultMap.put("status",false);
+            resultMap.put("message", "이미 등록된 사무소 이름/등록번호 입니다.");
+            stat = HttpStatus.OK;
+        }
+        else{
+            resultMap.put("status",true);
+            resultMap.put("message", "동록할 수 있는 사무소 정보입니다.");
+            stat = HttpStatus.ACCEPTED;
+        }
+
+        return new ResponseEntity<Map<String, Object>>(resultMap,stat);
+    }
+    public ResponseEntity<Map<String, Object>> getBrokerOfficelist(String keyword,Integer page){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        if (keyword == null) keyword = "";
+        if (page == null) page = 1;
+        resultMap.put("status",true);
+        resultMap.put("keyword", keyword);
+        resultMap.put("currentPage", page);
+        resultMap.put("pageCnt", broker_mapper.selectBrockerOfficePageCnt(keyword));
+        resultMap.put("totalCnt", broker_mapper.selectBrockerOfficeTotalCnt(keyword));
+        resultMap.put("list", broker_mapper.selectBrockerOfficeList(keyword,page));
+        return new ResponseEntity<Map<String, Object>>(resultMap,HttpStatus.CREATED);
+    }
+    public ResponseEntity<Map<String, Object>> updateBrokerOffice(BrokerOfficeInfoVO data){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+
+        broker_mapper.updateBrokerOfficeInfo(data);
+        resultMap.put("status",true);
+        resultMap.put("message", "중개사무소 정보가 수정되었습니다.");
+        stat = HttpStatus.ACCEPTED;
+
+        return new ResponseEntity<Map<String, Object>>(resultMap,stat);
+    }
+    public ResponseEntity<Map<String, Object>> deleteBrokerOfficeInfo(Integer no){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+        if(broker_mapper.selectBrokerOfficeBySeq(no) == null){
+            resultMap.put("status",false);
+            resultMap.put("message", "중개사무소 정보가 없습니다..");
+            stat = HttpStatus.OK;
+        }
+        else{
+        broker_mapper.deleteBrokerOffceInfo(no);
+        resultMap.put("status",true);
+        resultMap.put("message", "중개사무소 정보가 삭제되었습니다.");
+        stat = HttpStatus.ACCEPTED;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap,stat);
+    }
+    public ResponseEntity<Map<String, Object>> selectBrokerOfficeInfoBySeq(Integer no){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        HttpStatus stat = null;
+        BrokerOfficeInfoVO data = broker_mapper.selectBrokerOfficeBySeq(no);
+        if(data == null){
+            resultMap.put("status",false);
+            resultMap.put("message", "중개사무소 정보가 없습니다..");
+            stat = HttpStatus.OK;
+        }
+        else{
+        resultMap.put("status",true);
+        resultMap.put("office", data);
+        stat = HttpStatus.ACCEPTED;
+        }
+        return new ResponseEntity<Map<String, Object>>(resultMap,stat);
     }
 }
