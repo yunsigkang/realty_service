@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="realty.realty.mapper.UserMapper">
+    <insert id="insertUserInfo">
+        INSERT INTO user_info
+            (ui_id, ui_pwd, ui_name, ui_birth, ui_gen, ui_phone, ui_status, ui_image_file)
+        VALUES
+            (#{ui_id}, #{ui_pwd}, #{ui_name}, #{ui_birth}, #{ui_gen}, #{ui_phone}, #{ui_status}, #{ui_image_file});
+    </insert>
+    <select id="isduplicatedId" resultType="java.lang.Boolean">
+        select ui_id = #{id} from user_info;
+    </select>
+    <select id="loginUser" resultType="realty.realty.data.user.UserInfoVO">
+        SELECT ui_seq, ui_id, ui_pwd, ui_name, ui_status, ui_image_file
+        FROM user_info where ui_id=#{id} ui_pwd=#{pwd};
+    </select>
+    <update id="updateUserInfo">
+        UPDATE user_info
+        SET
+            <if test="ui_pwd != null">ui_pwd=#{ui_pwd},</if>
+            <if test="ui_name != null">ui_name=#{ui_name},</if>
+            <if test="ui_birth != null">ui_birth=#{ui_birth},</if>
+            <if test="ui_gen != null">ui_gen=#{ui_gen},</if>
+            <if test="ui_phone != null">ui_phone=#{ui_phone},</if>
+            <if test="ui_status != null">ui_status=#{ui_status},</if>
+            <if test="ui_image_file != null">ui_image_file=#{ui_image_file},</if>
+            ui_seq=#{ui_seq}
+        WHERE ui_seq=#{ui_seq};
+    </update>
+    <update id="updateUserStatus">
+        UPDATE user_info SET ui_status=#{ui_status} WHERE ui_id=#{id};
+    </update>
+    <delete id="deleteUserInfo">
+        DELETE FROM user_info WHERE ui_seq=#{seq};
+    </delete>
+    <insert id="insertLikeInfo">
+        INSERT INTO favorite_realty_info
+            (fri_ui_seq, fri_rpi_seq)
+        VALUES
+            (#{fri_ui_seq}, #{fri_rpi_seq});
+    </insert>
+    <update id="updateLikeInfo">
+        UPDATE favorite_realty_info
+        SET fri_ui_seq=#{fri_ui_seq}, fri_rpi_seq=#{fri_rpi_seq}
+        WHERE fri_seq=#{fri_seq};
+    </update>
+    <insert id="insertLookupInfo">
+        INSERT INTO realty_lookup_info
+            (rli_ui_seq, rli_rpi_seq)
+        VALUES
+            (#{rli_ui_seq}, #{rli_rpi_seq});
+    </insert>
+</mapper>

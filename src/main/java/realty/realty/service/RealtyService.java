@@ -13,6 +13,7 @@ import realty.realty.data.realty.RealtyBasicInfoVO;
 import realty.realty.data.realty.RealtyBuildingInfoVO;
 import realty.realty.data.realty.RealtyOptionInfoVO;
 import realty.realty.data.realty.RealtyPostinfoVO;
+import realty.realty.data.realty.RealtySearchVO;
 import realty.realty.data.realty.RealtyTotalInfoVO;
 import realty.realty.data.realty.update.RealtyBuildingUpdateVO;
 import realty.realty.mapper.RealtyMapper;
@@ -209,6 +210,40 @@ public class RealtyService {
             resultMap.put("status", false);
             resultMap.put("message", name + "관리비 항목은 존재하지 않습니다.");    
         }
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
+    //게시글 검색 service
+    public ResponseEntity<Map<String, Object>> getPostList(RealtySearchVO search){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+
+        if(search.getPage() == null) search.setPage(1);
+        if(search.getAddress() == null) search.setAddress("");
+        if(search.getLon() == null) {
+            resultMap.put("message","위도(lat), 경도(lon)은 필수 값입니다.");
+            return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.BAD_REQUEST);
+        }
+
+        resultMap.put("list", Realty_mapper.selectPostList(search));
+        resultMap.put("total", Realty_mapper.selectPostCnt(search));
+        resultMap.put("pageCnt", Realty_mapper.selectPostPageCnt(search));
+        resultMap.put("page", search.getPage());
+        resultMap.put("keyword", search.getAddress());
+
+        if(search.getRad() == null){
+            resultMap.put("radius",3.0);
+        }
+        else{
+            resultMap.put("radius",search.getRad());
+        }
+
+        return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+    }
+    //한 개의 게시글 검색 service
+    public ResponseEntity<Map<String, Object>> selectPostInfoBySeq(Integer seq){
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        
+            resultMap.put("post", Realty_mapper.selectPostInfoBySeq(seq));
 
         return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
     }

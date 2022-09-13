@@ -231,6 +231,7 @@ public class BrokerService {
 
         return new ResponseEntity<Map<String, Object>>(resultMap,stat);
     }
+    //중개사 리스트 불러오는 service
     public ResponseEntity<Map<String, Object>> getBrokerOfficelist(String keyword,Integer page){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         if (keyword == null) keyword = "";
@@ -243,6 +244,7 @@ public class BrokerService {
         resultMap.put("list", broker_mapper.selectBrockerOfficeList(keyword,page));
         return new ResponseEntity<Map<String, Object>>(resultMap,HttpStatus.CREATED);
     }
+    //중개사 수정 service
     public ResponseEntity<Map<String, Object>> updateBrokerOffice(BrokerOfficeInfoVO data){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         HttpStatus stat = null;
@@ -254,6 +256,7 @@ public class BrokerService {
 
         return new ResponseEntity<Map<String, Object>>(resultMap,stat);
     }
+    //중개사 삭제 service
     public ResponseEntity<Map<String, Object>> deleteBrokerOfficeInfo(Integer no){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         HttpStatus stat = null;
@@ -270,6 +273,7 @@ public class BrokerService {
         }
         return new ResponseEntity<Map<String, Object>>(resultMap,stat);
     }
+    //중개사 여부 service
     public ResponseEntity<Map<String, Object>> selectBrokerOfficeInfoBySeq(Integer no){
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         HttpStatus stat = null;

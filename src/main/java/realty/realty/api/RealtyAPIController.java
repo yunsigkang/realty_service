@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import realty.realty.data.realty.RealtyBuildingInfoVO;
+import realty.realty.data.realty.RealtySearchVO;
 import realty.realty.data.realty.RealtyTotalInfoVO;
 import realty.realty.data.realty.update.RealtyBuildingUpdateVO;
 import realty.realty.service.RealtyService;
@@ -80,10 +82,15 @@ public class RealtyAPIController {
             return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/post/list")
-    public ResponseEntity<Map<String, Object>> getPostList() {
-        return null;
-        // return realty_service.getPostList();
+    //게시글 검색 기능
+    @PostMapping("/post/list")
+    public ResponseEntity<Map<String, Object>> getPostList(@RequestBody RealtySearchVO search) {
+        return realty_service.getPostList(search);
+    } 
+    //한 개의 게시글 검색 기능
+    @GetMapping("/post/get")
+    public ResponseEntity<Map<String, Object>> selectPostInfoBySeq(@RequestParam Integer seq) {
+        return realty_service.selectPostInfoBySeq(seq);
     } 
     //관리비 항목 추가 및 중복체크 기능
     @PutMapping("/maintain/add")
@@ -99,6 +106,5 @@ public class RealtyAPIController {
     @DeleteMapping("/maintain/delete")
     public ResponseEntity<Map<String, Object>> deleteMaintainItemList(@RequestParam String name) {
         return realty_service.deleteMaintainItemList(name);
-    } 
-
+    }
 }

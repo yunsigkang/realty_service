@@ -164,4 +164,287 @@
     <delete id="deleteMaintainItemList">
         DELETE FROM maintain_info WHERE maintain_name=#{name};
     </delete>
+    <select id="selectPostInfoBySeq" resultType="realty.realty.data.realty.RealtyPostViewVO">
+        select * from realty_detail_view where rpi_seq = ${seq}
+    </select>
+    <select id="selectPostList" resultType="realty.realty.data.realty.RealtyPostViewVO">
+	select *,
+		(
+			6371 * acos(
+				cos(radians(bi_latitube))
+				* cos(radians(#{lat}))
+				* cos(radians(bi_longitude) - radians(#{lon}))
+				+ sin(radians(bi_latitube))
+				* sin(radians(#{lat}))
+				)
+			)/1000
+	as distance from realty_detail_view 
+	having
+		bi_address like '%${address}%'
+        <if test = "rad == null">
+        <![CDATA[and distance <= 3]]>
+        </if>
+        <if test = "rad != null">
+        <![CDATA[and distance <= #{rad}]]> 
+        </if>
+        <if test="min_price != null or max_price != null">
+            and rbi_price between 
+                <if test="min_price == null">0</if>
+                <if test="min_price != null">#{min_price}</if>
+            and
+                <if test="max_price == null">99999999999999</if>
+                <if test="max_price != null">#{max_price}</if>
+        </if>
+        <if test="min_monthly_price != null or max_monthly_price != null">
+            and rbi_monthly_price between
+                <if test="min_monthly_price == null">0</if>
+                <if test="min_monthly_price != null">#{min_monthly_price}</if>
+            and
+                <if test="max_monthly_price == null">99999999999999</if>
+                <if test="max_monthly_price != null">#{max_monthly_price}</if>
+        </if>
+        <if test="min_maintion_price != null or max_maintion_price != null">
+            and rbi_maintain_price between
+                <if test="min_maintion_price == null">0</if>
+                <if test="min_maintion_price != null">#{min_maintion_price}</if>
+            and
+                <if test="max_maintion_price == null">99999999999999</if>
+                <if test="max_maintion_price != null">#{max_maintion_price}</if>
+        </if>
+        <if test="min_supply_area != null or max_supply_area != null">
+            and rbi_supply_area between
+                <if test="min_supply_area == null">0</if>
+                <if test="min_supply_area != null">#{min_supply_area}</if>
+            and
+                <if test="max_supply_area == null">99999999999999</if>
+                <if test="max_supply_area != null">#{max_supply_area}</if>
+        </if>
+        <if test="min_available_dt != null or max_available_dt != null">
+		and rbi_available_dt between
+                <if test="min_available_dt == null">'1970-01-01'</if>
+                <if test="min_available_dt != null">#{min_available_dt}</if>
+            and
+                <if test="max_available_dt == null">now()</if>
+                <if test="max_available_dt != null">#{max_available_dt}</if>
+        </if>
+		<if test="sale_type != null">and rbi_sale_type = #{sale_type}</if>
+		<if test="parking_count != null">
+        <![CDATA[and rbi_parking_count < #{parking_count}]]> 
+        </if>
+		<if test="shortter_lease != null">and rbi_short_term_lease = #{shortter_lease}</if>
+		<if test="room_type != null">and rbi_room_type = #{room_type}</if>
+		<if test="floor != null">and rbi_floor in 
+            <foreach collection="floor" item="i" open="(" separator="," close=")">#{i}</foreach>
+        </if>
+		<if test="room_count != null">
+        <![CDATA[and rbi_room_count >= #{room_count}]]> 
+        </if>
+		<if test="dirction != null">and rbi_room_direction in 
+            <foreach collection="floor" item="i" open="(" separator="," close=")">#{i}</foreach>
+        </if>
+		<if test="kitchen_type != null">and rbi_kitchen_type = #{kitchen_type}</if>
+		<if test="balcony_type != null">and rbi_balcony_type = #{balcony_type}</if>
+		<if test="ktchen_structure != null">and rbi_kitchen_structure = #{ktchen_structure}</if>
+		<if test="induction != null">and induction = #{induction}</if>
+		<if test="elec_range != null">and elec_range = #{elec_range}</if>
+		<if test="ariconditioner != null">and ariconditioner = #{ariconditioner}</if>
+		<if test="washing_machine != null">and washing_machine = #{washing_machine}</if>
+		<if test="television != null">and television = #{television}</if>
+		<if test="closet != null">and closet = #{closet}</if>
+		<if test="bed != null">and bed = #{bed}</if>
+		<if test="desk != null">and desk = #{desk}</if>
+		<if test="shoe_closet != null">and shoe_closet = #{shoe_closet}</if>
+		<if test="bidet != null">and bidet = #{bidet}</if>
+		<if test="stove != null">and stove = #{stove}</if>
+		<if test="refrigerator != null">and refrigerator = #{refrigerator}</if>
+		<if test="elec_doorlock != null">and elec_doorlock = #{elec_doorlock}</if>
+		<if test="elevator != null">and elevator = #{elevator}</if>
+        limit 10 offset ${(page-1)*10}
+    </select>
+    <select id="selectPostCnt" resultType="java.lang.Integer">
+    select *,count(*),
+        (
+			6371 * acos(
+				cos(radians(bi_latitube))
+				* cos(radians(#{lat}))
+				* cos(radians(bi_longitude) - radians(#{lon}))
+				+ sin(radians(bi_latitube))
+				* sin(radians(#{lat}))
+				)
+			)/1000
+	as distance from realty_detail_view 
+	having
+		bi_address like '%${address}%'
+        <if test = "rad == null">
+        <![CDATA[and distance <= 3]]>
+        </if>
+        <if test = "rad != null">
+        <![CDATA[and distance <= #{rad}]]> 
+        </if>
+        <if test="min_price != null or max_price != null">
+            and rbi_price between 
+                <if test="min_price == null">0</if>
+                <if test="min_price != null">#{min_price}</if>
+            and
+                <if test="max_price == null">99999999999999</if>
+                <if test="max_price != null">#{max_price}</if>
+        </if>
+        <if test="min_monthly_price != null or max_monthly_price != null">
+            and rbi_monthly_price between
+                <if test="min_monthly_price == null">0</if>
+                <if test="min_monthly_price != null">#{min_monthly_price}</if>
+            and
+                <if test="max_monthly_price == null">99999999999999</if>
+                <if test="max_monthly_price != null">#{max_monthly_price}</if>
+        </if>
+        <if test="min_maintion_price != null or max_maintion_price != null">
+            and rbi_maintain_price between
+                <if test="min_maintion_price == null">0</if>
+                <if test="min_maintion_price != null">#{min_maintion_price}</if>
+            and
+                <if test="max_maintion_price == null">99999999999999</if>
+                <if test="max_maintion_price != null">#{max_maintion_price}</if>
+        </if>
+        <if test="min_supply_area != null or max_supply_area != null">
+            and rbi_supply_area between
+                <if test="min_supply_area == null">0</if>
+                <if test="min_supply_area != null">#{min_supply_area}</if>
+            and
+                <if test="max_supply_area == null">99999999999999</if>
+                <if test="max_supply_area != null">#{max_supply_area}</if>
+        </if>
+        <if test="min_available_dt != null or max_available_dt != null">
+		and rbi_available_dt between
+                <if test="min_available_dt == null">'1970-01-01'</if>
+                <if test="min_available_dt != null">#{min_available_dt}</if>
+            and
+                <if test="max_available_dt == null">now()</if>
+                <if test="max_available_dt != null">#{max_available_dt}</if>
+        </if>
+		<if test="sale_type != null">and rbi_sale_type = #{sale_type}</if>
+		<if test="parking_count != null">
+        <![CDATA[and rbi_parking_count < #{parking_count}]]> 
+        </if>
+		<if test="shortter_lease != null">and rbi_short_term_lease = #{shortter_lease}</if>
+		<if test="room_type != null">and rbi_room_type = #{room_type}</if>
+		<if test="floor != null">and rbi_floor in 
+            <foreach collection="floor" item="i" open="(" separator="," close=")">#{i}</foreach>
+        </if>
+		<if test="room_count != null">
+        <![CDATA[and rbi_room_count >= #{room_count}]]> 
+        </if>
+		<if test="dirction != null">and rbi_room_direction in 
+            <foreach collection="floor" item="i" open="(" separator="," close=")">#{i}</foreach>
+        </if>
+		<if test="kitchen_type != null">and rbi_kitchen_type = #{kitchen_type}</if>
+		<if test="balcony_type != null">and rbi_balcony_type = #{balcony_type}</if>
+		<if test="ktchen_structure != null">and rbi_kitchen_structure = #{ktchen_structure}</if>
+		<if test="induction != null">and induction = #{induction}</if>
+		<if test="elec_range != null">and elec_range = #{elec_range}</if>
+		<if test="ariconditioner != null">and ariconditioner = #{ariconditioner}</if>
+		<if test="washing_machine != null">and washing_machine = #{washing_machine}</if>
+		<if test="television != null">and television = #{television}</if>
+		<if test="closet != null">and closet = #{closet}</if>
+		<if test="bed != null">and bed = #{bed}</if>
+		<if test="desk != null">and desk = #{desk}</if>
+		<if test="shoe_closet != null">and shoe_closet = #{shoe_closet}</if>
+		<if test="bidet != null">and bidet = #{bidet}</if>
+		<if test="stove != null">and stove = #{stove}</if>
+		<if test="refrigerator != null">and refrigerator = #{refrigerator}</if>
+		<if test="elec_doorlock != null">and elec_doorlock = #{elec_doorlock}</if>
+		<if test="elevator != null">and elevator = #{elevator}</if>
+    </select>
+    <select id="selectPostPageCnt" resultType="java.lang.Integer">
+    select *,ceil(count(*)/10),
+        (
+			6371 * acos(
+				cos(radians(bi_latitube))
+				* cos(radians(#{lat}))
+				* cos(radians(bi_longitude) - radians(#{lon}))
+				+ sin(radians(bi_latitube))
+				* sin(radians(#{lat}))
+				)
+			)/1000
+	as distance from realty_detail_view 
+	having
+		bi_address like '%${address}%'
+        <if test = "rad == null">
+        <![CDATA[and distance <= 3]]>
+        </if>
+        <if test = "rad != null">
+        <![CDATA[and distance <= #{rad}]]> 
+        </if>
+        <if test="min_price != null or max_price != null">
+            and rbi_price between 
+                <if test="min_price == null">0</if>
+                <if test="min_price != null">#{min_price}</if>
+            and
+                <if test="max_price == null">99999</if>
+                <if test="max_price != null">#{max_price}</if>
+        </if>
+        <if test="min_monthly_price != null or max_monthly_price != null">
+            and rbi_monthly_price between
+                <if test="min_monthly_price == null">0</if>
+                <if test="min_monthly_price != null">#{min_monthly_price}</if>
+            and
+                <if test="max_monthly_price == null">99999</if>
+                <if test="max_monthly_price != null">#{max_monthly_price}</if>
+        </if>
+        <if test="min_maintion_price != null or max_maintion_price != null">
+            and rbi_maintain_price between
+                <if test="min_maintion_price == null">0</if>
+                <if test="min_maintion_price != null">#{min_maintion_price}</if>
+            and
+                <if test="max_maintion_price == null">99999</if>
+                <if test="max_maintion_price != null">#{max_maintion_price}</if>
+        </if>
+        <if test="min_supply_area != null or max_supply_area != null">
+            and rbi_supply_area between
+                <if test="min_supply_area == null">0</if>
+                <if test="min_supply_area != null">#{min_supply_area}</if>
+            and
+                <if test="max_supply_area == null">999999</if>
+                <if test="max_supply_area != null">#{max_supply_area}</if>
+        </if>
+        <if test="min_available_dt != null or max_available_dt != null">
+		and rbi_available_dt between
+                <if test="min_available_dt == null">'1970-01-01'</if>
+                <if test="min_available_dt != null">#{min_available_dt}</if>
+            and
+                <if test="max_available_dt == null">now()</if>
+                <if test="max_available_dt != null">#{max_available_dt}</if>
+        </if>
+		<if test="sale_type != null">and rbi_sale_type = #{sale_type}</if>
+		<if test="parking_count != null">
+        <![CDATA[and rbi_parking_count < #{parking_count}]]> 
+        </if>
+		<if test="shortter_lease != null">and rbi_short_term_lease = #{shortter_lease}</if>
+		<if test="room_type != null">and rbi_room_type = #{room_type}</if>
+		<if test="floor != null">and rbi_floor in 
+            <foreach collection="floor" item="i" open="(" separator="," close=")">#{i}</foreach>
+        </if>
+		<if test="room_count != null">
+        <![CDATA[and rbi_room_count >= #{room_count}]]> 
+        </if>
+		<if test="dirction != null">and rbi_room_direction in 
+            <foreach collection="floor" item="i" open="(" separator="," close=")">#{i}</foreach>
+        </if>
+		<if test="kitchen_type != null">and rbi_kitchen_type = #{kitchen_type}</if>
+		<if test="balcony_type != null">and rbi_balcony_type = #{balcony_type}</if>
+		<if test="ktchen_structure != null">and rbi_kitchen_structure = #{ktchen_structure}</if>
+		<if test="induction != null">and induction = #{induction}</if>
+		<if test="elec_range != null">and elec_range = #{elec_range}</if>
+		<if test="ariconditioner != null">and ariconditioner = #{ariconditioner}</if>
+		<if test="washing_machine != null">and washing_machine = #{washing_machine}</if>
+		<if test="television != null">and television = #{television}</if>
+		<if test="closet != null">and closet = #{closet}</if>
+		<if test="bed != null">and bed = #{bed}</if>
+		<if test="desk != null">and desk = #{desk}</if>
+		<if test="shoe_closet != null">and shoe_closet = #{shoe_closet}</if>
+		<if test="bidet != null">and bidet = #{bidet}</if>
+		<if test="stove != null">and stove = #{stove}</if>
+		<if test="refrigerator != null">and refrigerator = #{refrigerator}</if>
+		<if test="elec_doorlock != null">and elec_doorlock = #{elec_doorlock}</if>
+		<if test="elevator != null">and elevator = #{elevator}</if>
+    </select>
 </mapper>

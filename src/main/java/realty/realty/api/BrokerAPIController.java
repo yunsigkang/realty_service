@@ -74,14 +74,17 @@ public class BrokerAPIController {
     public ResponseEntity<Map<String, Object>> getBrokerOfficelist(@RequestParam @Nullable String keyword, @RequestParam @Nullable Integer page) {
         return broker_service.getBrokerOfficelist(keyword, page);
     }
+    //중개사 수정 기능
     @PatchMapping("/office/update")
     public ResponseEntity<Map<String, Object>> updateBrokerOffice(@RequestBody BrokerOfficeInfoVO data) {
         return broker_service.updateBrokerOffice(data);
     }
+    //중개사 삭제 기능
     @DeleteMapping("/office/delete")
     public ResponseEntity<Map<String, Object>> deleteBrokerOfficeInfo(@RequestParam Integer no) {
         return broker_service.deleteBrokerOfficeInfo(no);
     }
+    //중개사 여부 기능
     @GetMapping("/office/get")
     public ResponseEntity<Map<String, Object>> selectBrokerOfficeInfoBySeq(@RequestParam Integer no) {
         return broker_service.selectBrokerOfficeInfoBySeq(no);

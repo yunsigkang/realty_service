@@ -8,7 +8,9 @@ import realty.realty.data.realty.RealtyBasicInfoVO;
 import realty.realty.data.realty.RealtyBuildingInfoVO;
 import realty.realty.data.realty.RealtyMaintainInfoVO;
 import realty.realty.data.realty.RealtyOptionInfoVO;
+import realty.realty.data.realty.RealtyPostViewVO;
 import realty.realty.data.realty.RealtyPostinfoVO;
+import realty.realty.data.realty.RealtySearchVO;
 import realty.realty.data.realty.update.RealtyBuildingUpdateVO;
 
 @Mapper
@@ -36,4 +38,9 @@ public interface RealtyMapper {
     public Integer selectMaintainItemCount();
     public List<RealtyMaintainInfoVO> selectMaintainItemList();
     public void deleteMaintainItemList(String name);
+    //게시글
+    public List<RealtyPostViewVO> selectPostList(RealtySearchVO search);
+    public Integer selectPostCnt(RealtySearchVO search);
+    public Integer selectPostPageCnt(RealtySearchVO search);
+    public RealtyPostViewVO selectPostInfoBySeq(Integer seq);
 }

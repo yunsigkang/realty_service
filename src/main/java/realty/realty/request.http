@@ -70,16 +70,16 @@ content-type: application/json
     "basic_info" : {
         "rbi_bi_seq" : "1",
         "rbi_price" : "200",
-        "rbi_monthly_price" : "25",
+        "rbi_monthly_price" : "35",
         "rbi_maintain_price" : "10",
         "rbi_sale_type" : "1",
         "rbi_parking_count" : "1",
-        "rbi_short_term_lease" : "1",
+        "rbi_short_term_lease" : "0",
         "rbi_room_type" : "0",
-        "rbi_floor" : "3",
-        "rbi_supply_area" : "39.66",
-        "rbi_use_area" : "39.66",
-        "rbi_room_count" : "1",
+        "rbi_floor" : "4",
+        "rbi_supply_area" : "49.66",
+        "rbi_use_area" : "49.66",
+        "rbi_room_count" : "2",
         "rbi_buliding_number" : "0",
         "rbi_room_number" : "0",
         "rbi_room_direction" : "0",
@@ -264,4 +264,59 @@ content-type: application/json
 delete http://localhost:9988/api/broker/office/delete?no=1
 #############################################################
 get http://localhost:9988/api/broker/office/get?no=2
-#############################################################
+#############################################################(20220908)
+post http://localhost:9988/api/realty/post/list
+content-type: application/json
+
+{
+    "lat":35.865796,
+    "lon":128.1593261,
+    "bi_addresse" : "중구",
+    "min_price" : 100,
+    "max_price" : 500,
+    "min_monthly_price" : 20,
+    "max_monthly_price" : 50,
+    "min_maintion_price" : 0,
+    "max_maintion_price" : 10,
+    "sale_type" : 1,
+    "parking_count" : 0,
+    "shortter_lease" : 1,
+    "room_type" : 0,
+    "floor" : [3,4,5,6],
+    "min_supply_area" : 30,
+    "max_supply_area" : 60,
+    "room_count" : 1,
+    "dirction" : [0,1],
+    "kitchen_type" : 1,
+    "balcony_type" : 0,
+    "ktchen_structure" : 1,
+    "min_available_dt" : "2010-01-01",
+    "max_available_dt" : "2010-01-01",
+    "ro_induction" : 0,
+    "ro_elec_range" : 1,
+    "ro_ariconditioner" : 1,
+    "ro_washing_machine" : 1,
+    "ro_television" : 1,
+    "ro_closet" : 1,
+    "ro_bed" : 0,
+    "ro_desk" : 0,
+    "ro_shoe_closet" : 1,
+    "ro_bidet" : 0,
+    "ro_stove" : 0,
+    "ro_refrigerator" : 1,
+    "ro_elec_doorlock" : 1,
+    "bi_elevator" : 1
+}
+######################################################
+post http://localhost:9988/api/realty/post/list
+content-type: application/json
+
+{
+    "lat":35.865796,
+    "lon":128.1593261,
+    "min_price" : 100,
+    "max_price" : 500
+}
+#######################################################
+get http://localhost:9988/api/realty/post/get?seq=4
+#######################################################

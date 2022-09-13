@@ -16,13 +16,10 @@ public interface BrokerMapper {
     public Boolean loginBroker(BrokerLoginVO login);
     public LoginSessionVO getLoginBrokerInfo(BrokerLoginVO login);
     public void updateBrokerInfo(BrokerInfoVO data);
-
     public Integer selectBrockerStatus(Integer bork_seq);
     public void updateBrokerStatus(Integer bork_seq, Integer bork_status);
-
     public Boolean isExistBrokerOffice(String name, String reg_no);
     public void insertBrokerOfficeInfo(BrokerOfficeInfoVO data);
-
     public Integer selectBrockerOfficePageCnt(String keyword);
     public Integer selectBrockerOfficeTotalCnt(String keyword);
     public List<BrokerOfficeInfoVO> selectBrockerOfficeList(String keyword, Integer page);
