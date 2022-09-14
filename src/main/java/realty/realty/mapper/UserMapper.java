@@ -1,5 +1,7 @@
 package realty.realty.mapper;
 
+import java.util.Date;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import realty.realty.data.user.UserInfoVO;
@@ -16,8 +18,11 @@ public interface UserMapper {
     public void updateUserStatus(String id, Integer status);
     public void deleteUserInfo(Integer seq);
     //좋아요
-    public void insertLikeInfo(UserRealtyLikeVO data);
-    public void updateLikeInfo(UserRealtyLikeVO data);
+    public void insertUserRealtyLikeInfo(UserRealtyLikeVO data);
+    // public void updateUserRealtyLikeInfo(UserRealtyLikeVO data);
+    public void deleteUserRealtyLikeInfo(UserRealtyLikeVO data);
+    public Boolean isExistUserRealtyLikeInfo(UserRealtyLikeVO data);
     //시간
     public void insertLookupInfo(UserRealtyLookupVO data);
+    public Date selectLatesrealtyLookupTime(UserRealtyLookupVO data);
 }

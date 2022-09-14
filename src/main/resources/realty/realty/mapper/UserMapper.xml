@@ -4,12 +4,12 @@
 <mapper namespace="realty.realty.mapper.UserMapper">
     <insert id="insertUserInfo">
         INSERT INTO user_info
-            (ui_id, ui_pwd, ui_name, ui_birth, ui_gen, ui_phone, ui_status, ui_image_file)
+            (ui_id, ui_pwd, ui_name, ui_birth, ui_gen, ui_phone, ui_image_file)
         VALUES
-            (#{ui_id}, #{ui_pwd}, #{ui_name}, #{ui_birth}, #{ui_gen}, #{ui_phone}, #{ui_status}, #{ui_image_file});
+            (#{ui_id}, #{ui_pwd}, #{ui_name}, #{ui_birth}, #{ui_gen}, #{ui_phone}, #{ui_image_file});
     </insert>
     <select id="isduplicatedId" resultType="java.lang.Boolean">
-        select ui_id = #{id} from user_info;
+        select count(*)=1 from user_info where ui_id = #{id};
     </select>
     <select id="loginUser" resultType="realty.realty.data.user.UserInfoVO">
         SELECT ui_seq, ui_id, ui_pwd, ui_name, ui_status, ui_image_file
@@ -34,21 +34,31 @@
     <delete id="deleteUserInfo">
         DELETE FROM user_info WHERE ui_seq=#{seq};
     </delete>
-    <insert id="insertLikeInfo">
+    <insert id="insertUserRealtyLikeInfo">
         INSERT INTO favorite_realty_info
             (fri_ui_seq, fri_rpi_seq)
         VALUES
             (#{fri_ui_seq}, #{fri_rpi_seq});
     </insert>
-    <update id="updateLikeInfo">
+    <!-- <update id="updateUserRealtyLikeInfo">
         UPDATE favorite_realty_info
         SET fri_ui_seq=#{fri_ui_seq}, fri_rpi_seq=#{fri_rpi_seq}
         WHERE fri_seq=#{fri_seq};
-    </update>
+    </update> -->
+    <delete id="deleteUserRealtyLikeInfo">
+        delete from favorite_realty_info where fri_ui_seq=#{fri_ui_seq} and fri_rpi_seq=#{fri_rpi_seq};
+    </delete>
+    <select id="isExistUserRealtyLikeInfo" resultType="java.lang.Boolean">
+        select count(*) = 1 from favorite_realty_info where fri_ui_seq=#{fri_ui_seq} and fri_rpi_seq=#{fri_rpi_seq};
+    </select>
     <insert id="insertLookupInfo">
         INSERT INTO realty_lookup_info
             (rli_ui_seq, rli_rpi_seq)
         VALUES
             (#{rli_ui_seq}, #{rli_rpi_seq});
     </insert>
+    <select id="selectLatesrealtyLookupTime" resultType="java.util.Date">
+        select rli_time from realty_lookup_info where rli_ui_seq=#{rli_ui_seq} and rli_rpi_seq=#{rli_rpi_seq}
+        order by rli_time desc limit 1
+    </select>
 </mapper>

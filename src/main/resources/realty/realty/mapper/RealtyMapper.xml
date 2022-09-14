@@ -192,7 +192,7 @@
                 <if test="min_price == null">0</if>
                 <if test="min_price != null">#{min_price}</if>
             and
-                <if test="max_price == null">99999999999999</if>
+                <if test="max_price == null">999999999</if>
                 <if test="max_price != null">#{max_price}</if>
         </if>
         <if test="min_monthly_price != null or max_monthly_price != null">
@@ -200,7 +200,7 @@
                 <if test="min_monthly_price == null">0</if>
                 <if test="min_monthly_price != null">#{min_monthly_price}</if>
             and
-                <if test="max_monthly_price == null">99999999999999</if>
+                <if test="max_monthly_price == null">999999999</if>
                 <if test="max_monthly_price != null">#{max_monthly_price}</if>
         </if>
         <if test="min_maintion_price != null or max_maintion_price != null">
@@ -208,7 +208,7 @@
                 <if test="min_maintion_price == null">0</if>
                 <if test="min_maintion_price != null">#{min_maintion_price}</if>
             and
-                <if test="max_maintion_price == null">99999999999999</if>
+                <if test="max_maintion_price == null">999999999</if>
                 <if test="max_maintion_price != null">#{max_maintion_price}</if>
         </if>
         <if test="min_supply_area != null or max_supply_area != null">
@@ -216,7 +216,7 @@
                 <if test="min_supply_area == null">0</if>
                 <if test="min_supply_area != null">#{min_supply_area}</if>
             and
-                <if test="max_supply_area == null">99999999999999</if>
+                <if test="max_supply_area == null">999999999</if>
                 <if test="max_supply_area != null">#{max_supply_area}</if>
         </if>
         <if test="min_available_dt != null or max_available_dt != null">
@@ -286,7 +286,7 @@
                 <if test="min_price == null">0</if>
                 <if test="min_price != null">#{min_price}</if>
             and
-                <if test="max_price == null">99999999999999</if>
+                <if test="max_price == null">999999999</if>
                 <if test="max_price != null">#{max_price}</if>
         </if>
         <if test="min_monthly_price != null or max_monthly_price != null">
@@ -294,7 +294,7 @@
                 <if test="min_monthly_price == null">0</if>
                 <if test="min_monthly_price != null">#{min_monthly_price}</if>
             and
-                <if test="max_monthly_price == null">99999999999999</if>
+                <if test="max_monthly_price == null">999999999</if>
                 <if test="max_monthly_price != null">#{max_monthly_price}</if>
         </if>
         <if test="min_maintion_price != null or max_maintion_price != null">
@@ -302,7 +302,7 @@
                 <if test="min_maintion_price == null">0</if>
                 <if test="min_maintion_price != null">#{min_maintion_price}</if>
             and
-                <if test="max_maintion_price == null">99999999999999</if>
+                <if test="max_maintion_price == null">999999999</if>
                 <if test="max_maintion_price != null">#{max_maintion_price}</if>
         </if>
         <if test="min_supply_area != null or max_supply_area != null">
@@ -310,7 +310,7 @@
                 <if test="min_supply_area == null">0</if>
                 <if test="min_supply_area != null">#{min_supply_area}</if>
             and
-                <if test="max_supply_area == null">99999999999999</if>
+                <if test="max_supply_area == null">999999999</if>
                 <if test="max_supply_area != null">#{max_supply_area}</if>
         </if>
         <if test="min_available_dt != null or max_available_dt != null">
@@ -379,7 +379,7 @@
                 <if test="min_price == null">0</if>
                 <if test="min_price != null">#{min_price}</if>
             and
-                <if test="max_price == null">99999</if>
+                <if test="max_price == null">999999999</if>
                 <if test="max_price != null">#{max_price}</if>
         </if>
         <if test="min_monthly_price != null or max_monthly_price != null">
@@ -387,7 +387,7 @@
                 <if test="min_monthly_price == null">0</if>
                 <if test="min_monthly_price != null">#{min_monthly_price}</if>
             and
-                <if test="max_monthly_price == null">99999</if>
+                <if test="max_monthly_price == null">999999999</if>
                 <if test="max_monthly_price != null">#{max_monthly_price}</if>
         </if>
         <if test="min_maintion_price != null or max_maintion_price != null">
@@ -395,7 +395,7 @@
                 <if test="min_maintion_price == null">0</if>
                 <if test="min_maintion_price != null">#{min_maintion_price}</if>
             and
-                <if test="max_maintion_price == null">99999</if>
+                <if test="max_maintion_price == null">999999999</if>
                 <if test="max_maintion_price != null">#{max_maintion_price}</if>
         </if>
         <if test="min_supply_area != null or max_supply_area != null">
@@ -403,7 +403,7 @@
                 <if test="min_supply_area == null">0</if>
                 <if test="min_supply_area != null">#{min_supply_area}</if>
             and
-                <if test="max_supply_area == null">999999</if>
+                <if test="max_supply_area == null">999999999</if>
                 <if test="max_supply_area != null">#{max_supply_area}</if>
         </if>
         <if test="min_available_dt != null or max_available_dt != null">

@@ -4,7 +4,7 @@ content-type: application/json
 
 {
     "bork_boi_seq":null,
-    "bork_id":"broker4",
+    "bork_id":"broker8",
     "bork_pwd":"123456",
     "bork_name":"broker1",
     "bork_phone":"01012345678",
@@ -18,7 +18,7 @@ post http://localhost:9988/api/broker/login
 content-type: application/json
 
 {
-    "id":"broker2",
+    "id":"broker8",
     "pwd":"123456"
 }
 ##################################################
@@ -237,16 +237,16 @@ put http://localhost:9988/api/broker/office/add
 content-type: application/json
 
 {
-    "boi_name" : "올스타 공인 소개 사무소",
-    "boi_address" : "대구광역시 북구 영송로 36",
+    "boi_name" : "올스타 공인 소개 사무소 aw",
+    "boi_address" : "대구광역시 북구 영송로 36-24",
     "boi_phone" : "010-3972-4777",
     "boi_master_name" : "박규나",
-    "boi_reg_number" : "27230-2021-00038",
+    "boi_reg_number" : "27230-2021-0003882",
     "boi_reg_dt" : "2022-09-08",
     "boi_image_file" : "defualt.jpg"
 }
 #############################################################
-get http://localhost:9988/api/broker/office/check?name=올스타 공인 소개 &reg_no=27230-2021-0
+get http://localhost:9988/api/broker/office/check?name=올스타 공인 소개 사무소 &reg_no=27230-2021-0
 #############################################################
 get http://localhost:9988/api/broker/office/list
 #############################################################
@@ -258,18 +258,19 @@ content-type: application/json
     "boi_phone" : "010-1234-5678",
     "boi_master_name" : "박OO",
     "boi_image_file" : "office_124875.jpg",
-    "boi_seq" : "1"
+    "boi_seq" : "2"
 }
 #############################################################
-delete http://localhost:9988/api/broker/office/delete?no=1
+delete http://localhost:9988/api/broker/office/delete?no=2
 #############################################################
-get http://localhost:9988/api/broker/office/get?no=2
+get http://localhost:9988/api/broker/office/get?no=3
 #############################################################(20220908)
 post http://localhost:9988/api/realty/post/list
 content-type: application/json
 
 {
     "lat":35.865796,
+    "rad":10,
     "lon":128.1593261,
     "bi_addresse" : "중구",
     "min_price" : 100,
@@ -314,9 +315,55 @@ content-type: application/json
 {
     "lat":35.865796,
     "lon":128.1593261,
+    "rad":10,
     "min_price" : 100,
     "max_price" : 500
 }
 #######################################################
 get http://localhost:9988/api/realty/post/get?seq=4
+#######################################################(20220914)
+put http://localhost:9988/api/user/add
+content-type: application/json
+
+{
+    "ui_id": "user12345",
+    "ui_pwd": "123456781",
+    "ui_name": "강OO",
+    "ui_birth": "1994-11-12",
+    "ui_gen": 1,
+    "ui_phone": "01012345678",
+    "ui_image_file": "defualt.jpg"
+}
 #######################################################
+get http://localhost:9988/api/user/idcheck?id=user123456
+#######################################################
+patch http://localhost:9988/api/user/update/info
+content-type: application/json
+
+{
+    "ui_seq":3,
+    "ui_pwd": "14518751",
+    "ui_name": "변경사용자",
+    "ui_gen": 1,
+    "ui_phone": "010-1234-5678",
+    "ui_image_file": "pfe_img.jpg"
+}
+########################################################
+patch http://localhost:9988/api/user/update/status?id=user12345&status=7
+########################################################
+########################################################
+post http://localhost:9988/api/user/like
+content-type: application/json
+
+{
+    "fri_ui_seq":3,
+    "fri_rpi_seq": 4
+}
+########################################################
+put http://localhost:9988/api/user/lookup
+content-type: application/json
+
+{
+    "rli_ui_seq":3,
+    "rli_rpi_seq": 4
+}
